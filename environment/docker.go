@@ -74,15 +74,12 @@ func createDockerNetwork(ctx context.Context, cli *client.Client) error {
 	nw := config.Get().Docker.Network
 	_, err := cli.NetworkCreate(ctx, nw.Name, types.NetworkCreate{
 		Driver:     nw.Driver,
-		EnableIPv6: true,
+		EnableIPv6: false,
 		Internal:   nw.IsInternal,
 		IPAM: &network.IPAM{
 			Config: []network.IPAMConfig{{
 				Subnet:  nw.Interfaces.V4.Subnet,
 				Gateway: nw.Interfaces.V4.Gateway,
-			}, {
-				Subnet:  nw.Interfaces.V6.Subnet,
-				Gateway: nw.Interfaces.V6.Gateway,
 			}},
 		},
 		Options: map[string]string{
